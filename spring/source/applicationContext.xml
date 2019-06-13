@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/util 
+						http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+	
+	<!-- bean配置 ，class:对应bean的全类名，要求该类必须含有无参构造器-->
+	<bean id="helloWorld" class="com.spring.bean.HelloWorld">
+		<property name="name" value="spring"></property>
+	</bean>
+	
+	<!-- 通过构造方法设置bean属性，默认按参数数序来配，也可指定index索引顺序,或者参数type -->
+	<bean id="car" class="com.spring.bean.Car">
+		<constructor-arg value="BMW" index="0" type="java.lang.String"></constructor-arg>
+		<constructor-arg value="ShangHai" index="1"></constructor-arg>
+		<constructor-arg value="300" type="int" ></constructor-arg>
+		
+	</bean>
+	
+	<bean id="car2" class="com.spring.bean.Car">
+		<constructor-arg value="Audi" index="0"></constructor-arg>
+		<!-- 含有特殊字符时使用CDATA正确输出 -->
+		<constructor-arg index="1"><value><![CDATA[<北京>]]></value></constructor-arg>
+		<constructor-arg value="100.0"></constructor-arg>
+	</bean>
+	
+	
+	<bean id="person" class="com.spring.bean.Person">
+		<property name="name" value="Mactalk"></property>
+		<property name="age" value="42"></property>
+		
+		<!-- 使用property的ref属性建立bean之间的引用关系 -->
+		<!-- <property name="car" ref="car2"></property> -->
+		<!-- 或者 -->
+		<!-- <property name="car">
+			<ref bean="car2"></ref>
+		</property> -->
+		
+		<!-- 内部bean不能被外部bean引用 -->
+		<property name="cars">
+			<bean id="car3" class="com.spring.bean.Car">
+				<constructor-arg value="福特"></constructor-arg>
+				<constructor-arg value="广州"></constructor-arg>
+				<constructor-arg value="200"></constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="person2" class="com.spring.bean.Person">
+		<constructor-arg value="吹风吹到疯"></constructor-arg>
+		<constructor-arg value="24"></constructor-arg>
+		<constructor-arg ref="car2"></constructor-arg>
+		<!-- <constructor-arg><null/></constructor-arg> -->
+		<!-- 级联属性需先初始化在它之前的元素，再赋值 -->
+		<!-- <property name="car.maxSpeed" value="123.12"></property> -->
+	</bean>
+	
+	<bean id="personList" class="com.spring.bean.Person">
+		<property name="name" value="Tompson"></property>
+		<property name="age" value="35"></property>
+		<property name="cars">
+			<list>
+				<ref bean="car"></ref>
+				<ref bean="car2"></ref>
+			</list>
+		</property>
+	</bean>
+	
+	
+	<bean id="personMap" class="com.spring.bean.NewPerson">
+		<property name="name" value="Miak"></property>
+		<property name="age" value="19"></property>
+		<property name="cars">
+		<!-- 使用map的entry子节点配置变量属性值 -->
+			<map>
+				<entry key="AA" value-ref="car"></entry>
+				<entry key="BB" value-ref="car2"></entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="dataSource" class="com.spring.bean.DataSource">
+		<property name="properties">
+			<props>
+				<prop key="user">Tim</prop>
+				<prop key="password">112231</prop>
+				<prop key="eamil"> gmail7188@qi.com</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 配置单例可复用集合bean，供其他bean使用,但在头部xmlns下需要导入
+	xmlns:util="http://www.springframework.org/schema/util"或在下方namespace中勾选util -->
+	<util:list id="carUtil">
+		<ref bean="car"/>
+		<ref bean="car2"/>
+	</util:list>
+	
+	<bean id="personUtil" class="com.spring.bean.Person">
+		<property name="name" value="GEM"></property>
+		<property name="age" value="26"></property>
+		<property name="cars" ref="carUtil"></property>
+	</bean>
+	
+	<!-- 使用p命名空间,同样需要引入xmlns:p="http://www.springframework.org/schema/p"或在namespace中勾选p空间 -->
+	<bean id="personPspace" class="com.spring.bean.Person" p:name="邓紫棋" p:age="27" p:cars-ref="carUtil">
+	</bean>	
+	
+	
+</beans>

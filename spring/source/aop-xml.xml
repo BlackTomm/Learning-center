@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<bean id="arithmeticCalculator"
+		class="com.spring.aop.xml.ArithmeticCalculatorImpl"></bean>
+	
+	<!-- 配置切面的bean -->
+	<bean id="LoggingAspect"
+		class="com.spring.aop.xml.LoggingAspect"></bean>
+	<bean id="validationAspect"
+		class="com.spring.aop.xml.ValidationAspect"></bean>
+	
+	<aop:config>
+		<!-- 配置切点 -->
+		<aop:pointcut expression="execution(public int com.spring.aop.xml.ArithmeticCalculator.*(..))" 
+			id="point"/>
+		
+		<!-- 配置切面通知，注意 after-throwinng 要配置 throwing="e",否则会报
+		Pointcut is malformed: error at ::0 formal unbound in pointcut
+		after-returning类似,必须指明方法 -->
+		<aop:aspect ref="LoggingAspect" order="2">
+			<aop:before method="beforeMethod" pointcut-ref="point"/>
+			<aop:after method="afterMethod" pointcut-ref="point"/>
+			<aop:after-throwing method="afterThrowing" pointcut-ref="point" throwing="e"/>
+			<aop:after-returning method="afterReturnning" pointcut-ref="point" returning="result"/>
+		</aop:aspect>
+		
+		<aop:aspect ref="validationAspect" order="1">
+			<aop:before method="validateArgs" pointcut-ref="point"/>
+		</aop:aspect>
+	</aop:config>
+	
+</beans>

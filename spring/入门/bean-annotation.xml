@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- 指定IOC扫描包,如resource-pattern设置只扫描特定文件夹下的class文件，
+		文件夹与个人设置有关，可以是bin文件夹。但eclipse不可见 -->
+	<!-- <context:component-scan 
+			base-package="com.spring.bean.annotation"
+			resource-pattern="repository/*.class"></context:component-scan> -->
+	
+	
+	<context:component-scan 
+		base-package="com.spring.bean.annotation">		
+		<!--在base-package后可添加   use-default-filters="false" 
+			设置true时默认不过滤，对部分过滤时不添加此项 -->
+		
+		<!-- <context:include-filter type="assignable"
+			expression="com.spring.bean.annotation.TestObject"/>
+			
+		<context:include-filter type="annotation" 
+			expression="org.springframework.stereotype.Repository"/>
+	
+		<context:exclude-filter type="assignable" 
+			expression="com.spring.bean.annotation.service.UserService"/> -->
+					
+	</context:component-scan>
+
+</beans>

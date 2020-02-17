@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="testdb">
+  <database-model serializer="dbm" dbms="H2" family-id="H2" format-version="4.15">
+    <root id="1">
+      <ServerVersion>1.4.196</ServerVersion>
+    </root>
+    <database id="2" parent="1" name="TESTDB">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </database>
+    <schema id="3" parent="2" name="INFORMATION_SCHEMA"/>
+    <schema id="4" parent="2" name="PUBLIC">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <table id="5" parent="4" name="FOO"/>
+    <column id="6" parent="5" name="ID">
+      <Position>1</Position>
+      <DataType>INTEGER(10)|4s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <DefaultExpression>(NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_36EEF537_4C93_4531_ACC4_9CBD3EF99F59)</DefaultExpression>
+    </column>
+    <column id="7" parent="5" name="BAR">
+      <Position>2</Position>
+      <DataType>VARCHAR(64)|12s</DataType>
+    </column>
+    <index id="8" parent="5" name="PRIMARY_KEY_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="9" parent="5" name="CONSTRAINT_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+  </database-model>
+</dataSource>
